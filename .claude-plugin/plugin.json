@@ -1,0 +1,12 @@
+{
+  "name": "briefing-card",
+  "description": "T0–T3 汇报路由 + 聊天内决策/进度/确认卡（可点交互）。装上即通过 SessionStart hook 常驻自动触发，无需手动改 CLAUDE.md。",
+  "version": "1.0.0",
+  "author": {
+    "name": "Vincent Wen"
+  },
+  "homepage": "https://github.com/vincent-wen789/claude-briefing-cards",
+  "repository": "https://github.com/vincent-wen789/claude-briefing-cards",
+  "license": "MIT",
+  "keywords": ["briefing", "decision-card", "reporting", "claude-code", "hooks"]
+}

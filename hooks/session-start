@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# SessionStart hook — briefing-card plugin.
+# Injects the T0–T3 reporting-routing block as resident context on every
+# session start / clear / compact, so the skill auto-triggers WITHOUT a
+# manual CLAUDE.md paste. This is the half that does NOT travel with a bare
+# skill folder — the reason a plain install "felt like nothing installed".
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+context_content=$(cat "${SCRIPT_DIR}/session-context.md" 2>/dev/null || echo "")
+
+# ponytail: missing context file → emit no-op JSON, never break the session.
+if [ -z "$context_content" ]; then
+  printf '{}\n'
+  exit 0
+fi
+
+# Single-pass JSON string escaping (backslash first, then the rest).
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+frame=$'以下是用户 Vincent 的常驻汇报路由指令（本会话每轮生效，等同 CLAUDE.md，优先于默认「甩文字」行为）：\n\n'
+session_context=$(escape_for_json "${frame}${context_content}")
+
+# Claude Code reads hookSpecificOutput.additionalContext; SDK standard is a
+# top-level additionalContext. Emit the field the current platform consumes.
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$session_context"
+else
+  printf '{\n  "additionalContext": "%s"\n}\n' "$session_context"
+fi
+exit 0

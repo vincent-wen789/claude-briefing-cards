@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "prompt": "汇报一下我三个项目这周的进度（MeowType / Cookie Ledger / if-game），Cookie Ledger 卡在域名没买",
+    "expected": "T2 进度卡：三线状态点+增量、blocker 红条单列（买域名是 Vincent 动作 → litmus 不过不渲染按钮、标需介入）、下一步带耗时档、出处、卡外正文兜底"
+  },
+  {
+    "id": 2,
+    "prompt": "这 5 条配置改动帮我过一遍，要不要保留",
+    "expected": "T2 确认卡：≥3 项带出处自动触发；按建议预填三态、一次合并提交+日期戳、含建议驳回项时无「全部确认」快捷键、卡外正文"
+  },
+  {
+    "id": 3,
+    "prompt": "笔记软件 Notion 还是 Obsidian？给我个简单结论就行",
+    "expected": "不画卡（T0 直答或 T1 选项卡）——测过度触发克制"
+  }
+]
